@@ -1,6 +1,6 @@
 {
   "name": "wygsiwyg",
-  "version": "3.0.9",
+  "version": "4.0.4",
   "description": "easy to implement dynamic wygsiwyg",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+git remote add origin https://github.com/isatbalaji/wygsiwyg.git"
+    "url": "git+git remote add origin https://github.com/isat7/isatwysiwyg.git"
   },
   "keywords": [
     "isat",

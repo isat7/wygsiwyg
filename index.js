@@ -1,7 +1,7 @@
 
 function isat_wygsiwyg_zone(isat_op){
   
-  console.log("worked");
+  // console.log("worked");
 
 
   // var isat=document.getElementById("main-input");
@@ -17,9 +17,37 @@ function isat_wygsiwyg_zone(isat_op){
 
 
 
-  var isat_savedSelection,isaveSelection, restoreSelection;
+//   var isat_savedSelection, restoreSelection;
+// try {
+  
+//   if(isat_op.disable==true)
+//   {
+  
+//     console.log("disabled");
+//   }
+//   else{
+
+//     console.log("enabled");
+//   }
+  
+// } catch (error) {
+  
+// }
+ 
 
 
+
+var isat_savedSelection, restoreSelection;
+// try {
+  
+//   if(isat_op.disable==true)
+//   {
+  
+//     console.log("disabled");
+//   }
+//   else{
+
+  
 
 // // -------------------------------------------------------------------------newt task----------------------------------------------------------------------------------------
 
@@ -141,7 +169,22 @@ saveSelection = function(containerEl) {
        
 try {
 
+
+  if(isat_op.disable==true)
+    {
+    
+      console.log("disabled");
+    }
+    else{
+
+      
+
 var isat_editable_content=elementOnMouseOver.getAttribute("isat_editable_content"); 
+
+  
+      console.log("enabled");
+    }
+
 } catch (error) {
 
 }
@@ -216,6 +259,26 @@ isat_editable.addEventListener("mouseup",function(){
 isat_editable.addEventListener("keyup",function(){
 
   isat_savedSelection = saveSelection( isat_editable );
+
+  // isat_options
+
+  // --------------------------------------------------------------------------------------new task --------------------------------------------------------------------
+
+    
+var getHtml;
+    getHtml=isat_editable.innerHTML;
+
+    getCode(getHtml);
+ 
+    var getPlainText;
+    getPlainTextf=isat_editable.innerText;
+    getText(getText);
+
+
+  // ---------------------------------------------------------------------------------------new task------------------------------------------------------------------------
+  // alert(isat_editable.innerHTML);
+
+
 
 
 })
@@ -445,6 +508,27 @@ isat_Command_execute(isat_custom_command);
 
 // console.log(isat_r_id);
 
+  // --------------------------------------------------------------------------------------new task --------------------------------------------------------------------
+try {
+ 
+  
+  var isat=document.getElementById("main-input");
+  var getHtml;
+  getHtml=isat.innerHTML;
+
+  getCode(getHtml);
+
+  var getText;
+ getText=isat.innerText;
+  getText(getText);
+
+
+} catch (error) {
+  
+}
+// ---------------------------------------------------------------------------------------new task------------------------------------------------------------------------
+
+
 });
 
 
@@ -469,7 +553,17 @@ document.getElementById("isat-left").addEventListener("click", function(){
     var isat=document.getElementById("main-input");
     // event.preventDefault();   
     isat.focus(); 
-      } catch (error) {
+    var getHtml;
+    getHtml=isat.innerHTML;
+  
+    getCode(getHtml);
+  
+    var getText;
+   getText=isat.innerText;
+    getText(getText);
+  
+
+  } catch (error) {
         
       }
       var isat_command="justifyLeft";
@@ -490,7 +584,16 @@ document.getElementById("isat-jfull").addEventListener("click", function(){
     var isat=document.getElementById("main-input");
     // event.preventDefault();   
     isat.focus(); 
-      } catch (error) {
+    var getHtml;
+    getHtml=isat.innerHTML;
+  
+    getCode(getHtml);
+  
+    var getText;
+   getText=isat.innerText;
+    getText(getText);
+  
+  } catch (error) {
         
       }
 var isat_command="justifyFull";
@@ -508,7 +611,16 @@ document.getElementById("isat-center").addEventListener("click", function(){
     var isat=document.getElementById("main-input");
     // event.preventDefault();   
     isat.focus(); 
-      } catch (error) {
+    var getHtml;
+    getHtml=isat.innerHTML;
+  
+    getCode(getHtml);
+  
+    var getText;
+   getText=isat.innerText;
+    getText(getText);
+  
+  } catch (error) {
         
       }
 var isat_command="justifyCenter";
@@ -521,7 +633,16 @@ document.getElementById("isat-right").addEventListener("click", function(){
     var isat=document.getElementById("main-input");
     // event.preventDefault();   
     isat.focus(); 
-      } catch (error) {
+    var getHtml;
+    getHtml=isat.innerHTML;
+  
+    getCode(getHtml);
+  
+    var getText;
+   getText=isat.innerText;
+    getText(getText);
+  
+  } catch (error) {
         
       }
 var isat_command="justifyRight";
@@ -552,7 +673,16 @@ try {
   var isat=document.getElementById("main-input");
   // event.preventDefault();   
   isat.focus(); 
-    } catch (error) {
+  var getHtml;
+  getHtml=isat.innerHTML;
+
+  getCode(getHtml);
+
+  var getText;
+ getText=isat.innerText;
+  getText(getText);
+
+} catch (error) {
       
     }
 
@@ -626,7 +756,16 @@ document.getElementById("isat-underline").addEventListener("click", function(){
     var isat=document.getElementById("main-input");
     // event.preventDefault();   
     isat.focus(); 
-      } catch (error) {
+    var getHtml;
+    getHtml=isat.innerHTML;
+  
+    getCode(getHtml);
+  
+    var getText;
+   getText=isat.innerText;
+    getText(getText);
+  
+  } catch (error) {
         
       }
 var isat_command="underline";
@@ -659,7 +798,16 @@ document.getElementById("isat-insertUnorderedList").addEventListener("click", fu
     var isat=document.getElementById("main-input");
     // event.preventDefault();   
     isat.focus(); 
-      } catch (error) {
+    var getHtml;
+    getHtml=isat.innerHTML;
+  
+    getCode(getHtml);
+  
+    var getText;
+   getText=isat.innerText;
+    getText(getText);
+  
+  } catch (error) {
         
       }
 var isat_command="insertUnorderedList";
@@ -681,7 +829,16 @@ document.getElementById("isat-insertOrderedList").addEventListener("click", func
     var isat=document.getElementById("main-input");
     // event.preventDefault();   
     isat.focus(); 
-      } catch (error) {
+    var getHtml;
+    getHtml=isat.innerHTML;
+  
+    getCode(getHtml);
+  
+    var getText;
+   getText=isat.innerText;
+    getText(getText);
+  
+  } catch (error) {
         
       }
 var isat_command="insertOrderedList";
@@ -706,7 +863,16 @@ document.getElementById("isat-indent").addEventListener("click", function(){
     var isat=document.getElementById("main-input");
     // event.preventDefault();   
     isat.focus(); 
-      } catch (error) {
+    var getHtml;
+    getHtml=isat.innerHTML;
+  
+    getCode(getHtml);
+  
+    var getText;
+   getText=isat.innerText;
+    getText(getText);
+  
+  } catch (error) {
         
       }
 var isat_command="indent";
@@ -727,7 +893,16 @@ document.getElementById("isat-outdent").addEventListener("click", function(){
     var isat=document.getElementById("main-input");
     // event.preventDefault();   
     isat.focus(); 
-      } catch (error) {
+    var getHtml;
+    getHtml=isat.innerHTML;
+  
+    getCode(getHtml);
+  
+    var getText;
+   getText=isat.innerText;
+    getText(getText);
+  
+  } catch (error) {
         
       }
 var isat_command="outdent";
@@ -750,7 +925,16 @@ document.getElementById("isat-strikeThrough").addEventListener("click", function
     var isat=document.getElementById("main-input");
     // event.preventDefault();   
     isat.focus(); 
-      } catch (error) {
+    var getHtml;
+    getHtml=isat.innerHTML;
+  
+    getCode(getHtml);
+  
+    var getText;
+   getText=isat.innerText;
+    getText(getText);
+  
+  } catch (error) {
         
       }
 var isat_command="strikeThrough";
@@ -775,7 +959,16 @@ document.getElementById("isat-bold").addEventListener("click", function(event){
 var isat=document.getElementById("main-input");
 // event.preventDefault();   
 isat.focus(); 
-  } catch (error) {
+var getHtml;
+getHtml=isat.innerHTML;
+
+getCode(getHtml);
+
+var getText;
+getText=isat.innerText;
+getText(getText);
+
+} catch (error) {
     
   }
 var isat_command="bold";
@@ -797,7 +990,16 @@ try {
   var isat=document.getElementById("main-input");
   // event.preventDefault();   
   isat.focus(); 
-    } catch (error) {
+  var getHtml;
+  getHtml=isat.innerHTML;
+
+  getCode(getHtml);
+
+  var getText;
+ getText=isat.innerText;
+  getText(getText);
+
+} catch (error) {
       
     }
 var isat_command="italic";
@@ -819,7 +1021,16 @@ document.getElementById("isat-header-1").addEventListener("click", function(){
     var isat=document.getElementById("main-input");
     // event.preventDefault();   
     isat.focus(); 
-      } catch (error) {
+    var getHtml;
+    getHtml=isat.innerHTML;
+  
+    getCode(getHtml);
+  
+    var getText;
+   getText=isat.innerText;
+    getText(getText);
+  
+  } catch (error) {
         
       }
 
@@ -845,7 +1056,16 @@ document.getElementById("isat-header-2").addEventListener("click", function(){
     var isat=document.getElementById("main-input");
     // event.preventDefault();   
     isat.focus(); 
-      } catch (error) {
+    var getHtml;
+    getHtml=isat.innerHTML;
+  
+    getCode(getHtml);
+  
+    var getText;
+   getText=isat.innerText;
+    getText(getText);
+  
+  } catch (error) {
         
       }
 var  isat_custom_command='{"isat_commands":"formatBlock","gui":false,"value":"h2"}';
@@ -873,6 +1093,15 @@ document.getElementById("isat-forecolor").addEventListener("click", function(){
    
     isat.focus(); 
     restoreSelection(isat, isat_savedSelection);
+    var getHtml;
+    getHtml=isat.innerHTML;
+  
+    getCode(getHtml);
+  
+    var getText;
+   getText=isat.innerText;
+    getText(getText);
+  
     // event.preventDefault();   
     // isat.focus(); 
       } catch (error) {
@@ -902,13 +1131,24 @@ try {
   var isat=document.getElementById("main-input");
   isat.focus(); 
   restoreSelection(isat, isat_savedSelection);
+  var getHtml;
+  getHtml=isat.innerHTML;
+
+  getCode(getHtml);
+
+  var getText;
+ getText=isat.innerText;
+  getText(getText);
+
   // event.preventDefault();   
   // isat.focus(); 
     } catch (error) {
       
     }
-var  isat_custom_command='{"isat_commands":"forecolor","gui":false,"value":"green"}';
+var  isat_custom_command='{"isat_commands":"backcolor","gui":false,"value":"green"}';
 isat_Command_execute(isat_custom_command);
+
+
 
 
 
@@ -930,16 +1170,41 @@ document.getElementById("isat-createlink").addEventListener("click", function(){
     var isat=document.getElementById("main-input");
     // event.preventDefault();   
     isat.focus(); 
-      } catch (error) {
+    var getHtml;
+    getHtml=isat.innerHTML;
+  
+    getCode(getHtml);
+  
+    var getText;
+   getText=isat.innerText;
+    getText(getText);
+  
+  } catch (error) {
         
       }
-url = prompt('Enter the link here: ', 'http:\/\/');
-// document.execCommand("createlink",false,url);
+// url = prompt('Enter the link here: ', 'http:\/\/');
+// // document.execCommand("createlink",false,url);
 
-var  isat_custom_command='{"createlink":"formatBlock","gui":false,"value":"url"}';
-isat_Command_execute(isat_custom_command);
+// var  isat_custom_command='{"createlink":"formatBlock","gui":false,"value":'+url+'}';
+// isat_Command_execute(isat_custom_command);
+
+
+var linkURL = prompt('Enter a URL:', 'http://');
+var sText = prompt('Name', '');;
+
+document.execCommand('insertHTML', false, '<a href="' + linkURL + '" target="_blank">' + sText + '</a>');
+
 
 });
+
+var getHtml;
+getHtml=isat.innerHTML;
+
+getCode(getHtml);
+
+var getText;
+getText=isat.innerText;
+getText(getText);
 
 } catch (error) {
 
@@ -956,7 +1221,16 @@ try {
   var isat=document.getElementById("main-input");
   // event.preventDefault();   
   isat.focus(); 
-    } catch (error) {
+  var getHtml;
+  getHtml=isat.innerHTML;
+
+  getCode(getHtml);
+
+  var getText;
+ getText=isat.innerText;
+  getText(getText);
+
+} catch (error) {
       
     }
 var isat_command="unlink";
@@ -979,7 +1253,16 @@ try {
   var isat=document.getElementById("main-input");
   // event.preventDefault();   
   isat.focus(); 
-    } catch (error) {
+  var getHtml;
+  getHtml=isat.innerHTML;
+
+  getCode(getHtml);
+
+  var getText;
+ getText=isat.innerText;
+  getText(getText);
+
+} catch (error) {
       
     }
 var isat_command="subscript";
@@ -989,6 +1272,86 @@ isat_Command_engine(isat_command);
 } catch (error) {
 
 }
+
+
+
+
+
+
+
+
+try {
+
+
+  document.getElementById("isat-undo").addEventListener("click", function(){
+  
+  
+  //   document.execCommand("subscript",false,null);
+  try {
+     
+    var isat=document.getElementById("main-input");
+    // event.preventDefault();   
+    isat.focus(); 
+    var getHtml;
+    getHtml=isat.innerHTML;
+  
+    getCode(getHtml);
+  
+    var getText;
+   getText=isat.innerText;
+    getText(getText);
+  
+  } catch (error) {
+        
+      }
+  var isat_command="undo";
+  isat_Command_engine(isat_command);
+  
+  });
+  } catch (error) {
+  
+  }
+  
+
+  
+try {
+
+
+  document.getElementById("isat-redo").addEventListener("click", function(){
+  
+  
+  //   document.execCommand("subscript",false,null);
+  try {
+     
+    var isat=document.getElementById("main-input");
+    // event.preventDefault();   
+    isat.focus(); 
+    var getHtml;
+    getHtml=isat.innerHTML;
+  
+    getCode(getHtml);
+  
+    var getText;
+   getText=isat.innerText;
+    getText(getText);
+  
+  } catch (error) {
+        
+      }
+  var isat_command="redo";
+  isat_Command_engine(isat_command);
+  
+  });
+  } catch (error) {
+  
+  }
+  
+
+
+
+
+
+
 
 
 
@@ -1004,7 +1367,16 @@ try {
   var isat=document.getElementById("main-input");
   // event.preventDefault();   
   isat.focus(); 
-    } catch (error) {
+  var getHtml;
+  getHtml=isat.innerHTML;
+
+  getCode(getHtml);
+
+  var getText;
+ getText=isat.innerText;
+  getText(getText);
+
+} catch (error) {
       
     }
 var isat_command="superscript";
@@ -1017,9 +1389,249 @@ isat_Command_engine(isat_command);
 
 
 
+try {
+
+  
+document.getElementById("isat-getCode").addEventListener("click", function(){
+
+
+  try {
+   
+    var isat=document.getElementById("main-input");
+    // event.preventDefault();   
+    isat.focus(); 
+    var getHtml;
+    
+    var puthtml=isat_op.dataMode.attribute;
+    puthtml.innerText=isat.innerHTML;
+    getHtml=isat.innerHTML;
+  
+    getCode(getHtml);
+  
+    var getText;
+   getText=isat.innerText;
+    getText(getText);
+  
+  } catch (error) {
+        
+      }
+
+
+});
+
+} catch (error) {
+  
+}
+
+
+
+try {
+
+  
+document.getElementById("isat-getText").addEventListener("click", function(){
+
+
+
+  try {
+   //isat_options
+   
+    var isat=document.getElementById("main-input");
+    // event.preventDefault();   
+    isat.focus(); 
+    var getHtml;
+    getHtml=isat.innerHTML;
+  
+    getCode(getHtml);
+    var puttext=isat_op.dataMode.attribute;
+    puttext.innerText=isat.innerText;
+    var getText;
+    getText=isat.innerText;
+    
+    getText(getText);
+  
+  } catch (error) {
+        
+      }
+
+});
+
+} catch (error) {
+  
+}
+
+ //get html content
+ 
+ //el is document.getElementById or queryselector
+
+ try {
+  
+  
+  document.getElementById("main-input").addEventListener("keyup",function(){
+ 
+   // getHtml();
+   // function getHtml(el){
+  
+    try {
+     
+      
+    var isat=document.getElementById("main-input").innerHTML;
+  alert(isat);
+    console.log(isat);
+    var getHtml;
+  getHtml=isat.innerHTML;
+
+  getCode(getHtml);
+
+  var getText;
+ getText=isat.innerText;
+  getText(getText);
+
+    } catch (error) {
+      
+    }
+   // }
+   
+  });
+ 
+  
+ } catch (error) {
+   
+ }
+     
+ 
+try {
+ 
+  
+document.getElementById("isat-image").addEventListener("change",function(){
+
+
+  //file upload from here
+  try {
+   
+    var file = document.getElementById("isat-image").files[0];
+  var editorContent=document.getElementById("main-input");
+   
+  var getHtml;
+  getHtml=isat.innerHTML;
+  
+  getCode(getHtml);
+  
+  var getText;
+  getText=isat.innerText;
+  getText(getText);
+  
+  } catch (error) {
+    
+  }
+    var reader = new FileReader();
+  
+    let dataURI;
+  
+    reader.addEventListener(
+      "load",
+      function() {
+        //file into uri
+        dataURI = reader.result;
+  //create image element
+        const img = document.createElement("img");
+        
+        img.src = dataURI;
+        //isat_options
+        try {
+         
+          
+        if(parseInt(isat_op.imgMode.width>0)){
+          img.width=isat_op.imgMode.width;
+          }
+    //isat_options
+          if(parseInt(isat_op.imgMode.height)>0){
+          img.height=isat_op.imgMode.height;
+          }
+  
+  
+          var getHtml;
+          getHtml=isat.innerHTML;
+        
+          getCode(getHtml);
+        
+          var getText;
+         getText=isat.innerText;
+          getText(getText);
+        
+  
+        } catch (error) {
+          
+        }
+        //insert end of the main-input
+  
+        try {
+         
+          
+        editorContent.appendChild(img);
+      
+        } catch (error) {
+          
+        }},
+      false
+    );
+  //apply file
+    if (file) {
+      console.log("s");
+      reader.readAsDataURL(file);
+    }
+  
+  
+  
+  
+  });
+  
+  
+} catch (error) {
+  
+}
+}
+
+
+// console.log("enabled");
+// }//try block closed
+
+// } catch (error) {
+
+//   // catche block
+// }
+// //enable and disable 
 
 }
 
+
+
+function  getCode(code){
+
+  console.log(code);
+try {
+
+  return code;
+} catch (error) {
+  
 }
 
-module.exports=isat_wygsiwyg_zone;
+
+
+}
+
+
+
+function  getText(text){
+
+  console.log(text);
+try {
+
+  return text;
+} catch (error) {
+  
+}
+}
+module.exports.getCode=getCode;
+
+module.exports.getText=getText;
+module.exports.isat_wygsiwyg_zone=isat_wygsiwyg_zone;
