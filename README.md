@@ -18,7 +18,7 @@ const isat=require('wygsiwyg');
 
 ### Import Option 2
 ```
-import {'isat'} from 'wygsiwyg'
+import isat from 'wygsiwyg'
 ```
 
 ### Usage
@@ -32,7 +32,7 @@ here **isat_editable_content=isat_editable_content** is must to perform wygsiwyg
  <div isat_editable_content="isat_editable_content">this is writable</div>
 ```
 
-### usage
+### usage 1
 apply your own style for wydgets and then make container if you want ,which is fully developer friendly
 ```html
     
@@ -46,20 +46,36 @@ apply your own style for wydgets and then make container if you want ,which is f
   <a id="isat-insertUnorderedList">isat-insertUnorderedList</a>   
   <a id="isat-bold">bold</a>  
   <a id="isat-italic">italic</a>  
-  <a id="isat-strikeThrough">strightthrough</a>  
+  <a id="isat-strikeThrough">strikeThrough</a>  
   <a id="isat-subscript">subscript
-  <a id="isat-superscript">supscript</a>    
+  <a id="isat-superscript">superscript</a>    
   <a id="isat-underline"> underline</a>
   <a id="isat-createlink">createlink</a>
   <a id="isat-unlink">unlink</a>      
   <a id="isat-header-1">h1</a>
-  <a id="isat-header-2">h2</a>
-  <a id="isat-forecolor">fore color</a>
-  <a id="isat-backcolor">back color</a>   
+  <a id="isat-header-2">h2</a>   
   <a id="isat-undo">undo</a>
   <a id="isat-redo">redo</a>
   <a id="isat-getText">isat getText</a>   
   <a id="isat-getCode">isat getCode</a> 
+
+ <!-- color code #aaaa or red rgb()... -->
+  <select name="slct" id="isat-forecolor">
+            
+      <option value="red">red</option>  
+      <option value="green">green</option>  
+  
+</select>
+
+
+ <!-- color code #aaaa or red rgb()... -->
+<select name="slct" id="isat-backcolor">
+            
+        <option value="red">red</option>  
+        <option value="green">green</option>  
+    
+  </select>
+
   
   
   <!-- google fonts here -->
@@ -114,8 +130,8 @@ isat.isat_wygsiwyg_zone({
 
 
 
-### options
-Style Your contentEditable
+## options
+###  contentEditable style
 
 ```javascript
 
@@ -126,7 +142,9 @@ isat.isat_wygsiwyg_zone({
    
 });
 ```
-Trigger options are  used to activate the contenteditable which have (isat_editable_content="isat_editable_content")
+### Triggers 
+contenteditable default value is 2 ->dblclick
+if triiger:1  ->click
 ```javascript
 isat.isat_wygsiwyg_zone({
      trigger:1,
@@ -165,7 +183,7 @@ isat.isat_wygsiwyg_zone({
 
 ```
 
-Insert  Edited Wysiwyg Content or Html 
+##get html  or plain text 
 
 
 ```html
@@ -216,9 +234,85 @@ isat.getText()
 
 ```
 
+### scripts
 
 
 
+```javascript
+
+
+isat.isatExec({cmd:"bold"});
+isat.isatExec({cmd:"italic"});
+//justify left.....
+isat.isatExec({cmd:"jleft"});
+isat.isatExec({cmd:"jright"});
+isat.isatExec({cmd:"jcenter"});
+isat.isatExec({cmd:"jfull"});
+//indent and utdent
+isat.isatExec({cmd:"indent"});
+isat.isatExec({cmd:"outdent"});
+//order and unorder list
+isat.isatExec({cmd:"ol"});
+isat.isatExec({cmd:"ul"});
+//sub and supper script
+isat.isatExec({cmd:"subscript"});
+isat.isatExec({cmd:"supscript"});
+//underline and strikethrough
+isat.isatExec({cmd:"strikethrough"});
+isat.isatExec({cmd:"underline"});
+//undo and redo
+isat.isatExec({cmd:"undo"});
+isat.isatExec({cmd:"redo"});
+isat.isatExec({cmd:"createlink",link:"http://google.com",name:"google"});
+isat.isatExec({cmd:"unlink"});
+//colour code, rgb and rgba...
+isat.isatExec({cmd:"forecolor",color:"red"});
+isat.isatExec({cmd:"backcolor",color:"green"});
+// heades h1,h2,h3,h4,h5 and h6
+isat.isatExec({cmd:"headers",tag:"h1"});
+// google fonts
+isat.isatExec({cmd:"fontfamily",type:"Mogra"});
+```
+
+
+
+
+
+Props
+
+| Props         |   Datatype          | Default|
+| ------------- |:-------------:| -----:|
+| editor_style  |string         | none  |
+| trigger       | integer       |   2   |
+| disable       | boolean       | false |
+| imgMode:{         height:40,         width:50    },          |int            | none(full image aspect ratio) |
+| dataMode:{     attribute:document.getElementById("mycode")    }           | element      |   none |
+
+
+##Support Widgets
+ 
+- Justify(left,right,center and full) 
+- indent 
+- outdent 
+- insertOrderedList
+- insertUnorderedList
+- bold
+- italic
+- strikeThrough
+- subscript
+- superscript
+- underline
+- createlink
+- unlink
+- Headers(h1 upto h6)
+- undo
+- redo
+- forecolor 
+- backcolor
+- fontfamily
+- image
+- getText 
+- getCode 
 
 ## Licensing
 

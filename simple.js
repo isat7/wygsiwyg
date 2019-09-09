@@ -1,5 +1,4 @@
-
-var isat_savedSelection, restoreSelection;
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 
 function isat_wygsiwyg_zone(isat_op){
   
@@ -39,6 +38,7 @@ function isat_wygsiwyg_zone(isat_op){
 
 
 
+var isat_savedSelection, restoreSelection;
 // try {
   
 //   if(isat_op.disable==true)
@@ -711,7 +711,6 @@ try {
 
 // loadFont(selected);
 
-
 var  isat_custom_command='{"isat_commands":"fontName","gui":false,"value":"'+selected+'"}';
 isat_Command_execute(isat_custom_command);
 //  document.execCommand("fontName", false, selected);
@@ -1087,13 +1086,12 @@ isat_Command_execute(isat_custom_command);
 try {
 
 
-document.getElementById("isat-forecolor").addEventListener("change", function(){
-
+document.getElementById("isat-forecolor").addEventListener("click", function(){
+  var isat=document.getElementById("main-input");
+  
   try {
     var isat=document.getElementById("main-input");
    
-  var selected=document.getElementById("isat-forecolor").value;
-  
     isat.focus(); 
     restoreSelection(isat, isat_savedSelection);
     var getHtml;
@@ -1112,7 +1110,7 @@ document.getElementById("isat-forecolor").addEventListener("change", function(){
       }
       
 document.execCommand('styleWithCSS', false, true);
-document.execCommand('forecolor', false, selected);
+document.execCommand('forecolor', false, 'red');
 
 // var  isat_custom_command='{"isat_commands":"forecolor","gui":false,"value":"red"}';
 // isat_Command_execute(isat_custom_command);
@@ -1126,13 +1124,11 @@ document.execCommand('forecolor', false, selected);
 try {
 
 
-document.getElementById("isat-backcolor").addEventListener("change", function(){
+document.getElementById("isat-backcolor").addEventListener("click", function(){
 
 //    document.execCommand('backcolor', false, 'green');
 
 try {
-  var selected=document.getElementById("isat-backcolor").value;
-  
   var isat=document.getElementById("main-input");
   isat.focus(); 
   restoreSelection(isat, isat_savedSelection);
@@ -1150,12 +1146,9 @@ try {
     } catch (error) {
       
     }
-var  isat_custom_command='{"isat_commands":"backcolor","gui":false,"value":'+selected+'}';
-// isat_Command_execute(isat_custom_command);
+var  isat_custom_command='{"isat_commands":"backcolor","gui":false,"value":"green"}';
+isat_Command_execute(isat_custom_command);
 
-
-document.execCommand('styleWithCSS', false, true);
-document.execCommand('backcolor', false, selected);
 
 
 
@@ -1618,7 +1611,6 @@ document.getElementById("isat-image").addEventListener("change",function(){
 
 // ------------------------------------------------------------------------------ewygsiwyg--------------------------------------------------------------------------
 
-// var isat_savedSelection, resstoreSelection;
 function isatExec(isat_op){
 
 
@@ -1631,16 +1623,185 @@ function isatExec(isat_op){
 
 
 
-if(isat_op.cmd=="bold"){
+if (window.getSelection && document.createRange) {
+  var saveSelection = function(containerEl) {
+       var range = window.getSelection().getRangeAt(0);
+       var preSelectionRange = range.cloneRange();
+       preSelectionRange.selectNodeContents(containerEl);
+       preSelectionRange.setEnd(range.startContainer, range.startOffset);
+       var start = preSelectionRange.toString().length;
+ 
+       return {
+           start: start,
+           end: start + range.toString().length
+       }
+   };
+ 
+   restoreSelection = function(containerEl, savedSel) {
+       var charIndex = 0, range = document.createRange();
+       range.setStart(containerEl, 0);
+       range.collapse(true);
+       var nodeStack = [containerEl], node, foundStart = false, stop = false;
+       
+       while (!stop && (node = nodeStack.pop())) {
+           if (node.nodeType == 3) {
+               var nextCharIndex = charIndex + node.length;
+               if (!foundStart && savedSel.start >= charIndex && savedSel.start <= nextCharIndex) {
+                   range.setStart(node, savedSel.start - charIndex);
+                   foundStart = true;
+               }
+               if (foundStart && savedSel.end >= charIndex && savedSel.end <= nextCharIndex) {
+                   range.setEnd(node, savedSel.end - charIndex);
+                   stop = true;
+               }
+               charIndex = nextCharIndex;
+           } else {
+               var i = node.childNodes.length;
+               while (i--) {
+                   nodeStack.push(node.childNodes[i]);
+               }
+           }
+       }
+ 
+       var sel = window.getSelection();
+       sel.removeAllRanges();
+       sel.addRange(range);
+   }
+ } else if (document.selection && document.body.createTextRange) {
+ saveSelection = function(containerEl) {
+       var selectedTextRange = document.selection.createRange();
+       var preSelectionTextRange = document.body.createTextRange();
+       preSelectionTextRange.moveToElementText(containerEl);
+       preSelectionTextRange.setEndPoint("EndToStart", selectedTextRange);
+       var start = preSelectionTextRange.text.length;
+ 
+       return {
+           start: start,
+           end: start + selectedTextRange.text.length
+       }
+   };
+ 
+   restoreSelection = function(containerEl, savedSel) {
+       var textRange = document.body.createTextRange();
+       textRange.moveToElementText(containerEl);
+       textRange.collapse(true);
+       textRange.moveEnd("character", savedSel.end);
+       textRange.moveStart("character", savedSel.start);
+       textRange.select();
+   };
+ }
+ 
+
+ var range = null;
+
+document.addEventListener('selectionchange', function(event) {
+var taget = event.target;
+if (taget.activeElement.id == 'main-input') {
+  range = getSelectionRange();
+}
+});
+
+function isIE() {
+return document.all || (!!window.MSInputMethodContext && !!document.documentMode);
+}
+
+
+function isat_Command_execute(isat_custom_command){
+
+
+  try {
+   
+    var isat=document.getElementById("main-input");
+    // event.preventDefault();   
+    isat.focus(); 
+      } catch (error) {
+        
+      }
+
+var object=JSON.parse(isat_custom_command);
+console.log(object);
+var isat_commands=object.isat_commands;
+var gui=object.gui;
+var value=object.value;
+console.log(isat_commands);
+console.log(gui);
+console.log(value);
+document.execCommand(isat_commands,Boolean(gui),value);
+}
+function isat_Command_engine(isat_command) {
+if (document.getSelection() != "") {
+  document.execCommand(isat_command);
+} else {
+  var s = null;
+  if (window.getSelection) {
+      s = window.getSelection();
+  } else {
+      s = document.getSelection();
+  }
+
+  if (isIE()) {
+      var selRange = s.getRangeAt(0);
+
+      //Insert node with dummy text 'd'
+      var newNode = document.createTextNode('d');
+      selRange.insertNode(newNode);
+      s.removeAllRanges();
+      s.addRange(selRange);
+
+      //Execute command on dummy
+      document.execCommand(isat_command);
+
+      //Delete dummy from range
+      selRange.setStart(newNode, 0);
+      selRange.setEnd(newNode, 1);
+      selRange.deleteContents();
+
+      s.removeAllRanges();
+      s.addRange(selRange);
+  } else {
+      if (range == null) {
+          range = document.createRange();
+      }
+      s.removeAllRanges();
+      s.addRange(range);
+      document.execCommand(isat_command);
+  }
+}
+}
+
+function getSelectionRange() {
+var sel;
+if (window.getSelection) {
+  sel = window.getSelection();
+  if (sel.rangeCount) {
+      return sel.getRangeAt(0);
+  }
+} else if (document.selection) {
+  return document.createRange();
+}
+
+return null;
+}
+
+ 
+ 
+ // -----------------------------------------------------------------------------------cursor maintain-------------------------------------------------------------------------------
+ 
+
+
+
+
+
+
+
+if(isat_op=="bold"){
 
   
   try {
    
     var isat=document.getElementById("main-input");
     // event.preventDefault();   
-    isat.focus();
-    restoreSelection(isat, isat_savedSelection);
-    // restoreSelection(isat, isatExec_savedSelection); 
+    isat.focus(); 
     var getHtml;
     getHtml=isat.innerHTML;
     
@@ -1654,687 +1815,12 @@ if(isat_op.cmd=="bold"){
         
       }
     var isat_command="bold";
-    // isat_Command_engine(isat_command);?
-    document.execCommand(isat_command);
+    isat_Command_engine(isat_command);
+    
 
 }
 
 
-if(isat_op.cmd=="italic"){
-
-  
-  try {
-   
-    var isat=document.getElementById("main-input");
-    // event.preventDefault();   
-    isat.focus();
-    restoreSelection(isat, isat_savedSelection);
-    // restoreSelection(isat, isatExec_savedSelection); 
-    var getHtml;
-    getHtml=isat.innerHTML;
-    
-    getCode(getHtml);
-    
-    var getText;
-    getText=isat.innerText;
-    getText(getText);
-    
-    } catch (error) {
-        
-      }
-    var isat_command="italic";
-    // isat_Command_engine(isat_command);?
-    document.execCommand(isat_command);
-
-}
-
-//////////left
-
-if(isat_op.cmd=="jleft"){
-
-  
-  try {
-   
-    var isat=document.getElementById("main-input");
-    // event.preventDefault();   
-    isat.focus();
-    restoreSelection(isat, isat_savedSelection);
-    // restoreSelection(isat, isatExec_savedSelection); 
-    var getHtml;
-    getHtml=isat.innerHTML;
-    
-    getCode(getHtml);
-    
-    var getText;
-    getText=isat.innerText;
-    getText(getText);
-    
-    } catch (error) {
-        
-      }
-      var isat_command="justifyLeft";
-    // isat_Command_engine(isat_command);?
-    document.execCommand(isat_command);
-
-}
-//////right
-
-if(isat_op.cmd=="jright"){
-
-  
-  try {
-   
-    var isat=document.getElementById("main-input");
-    // event.preventDefault();   
-    isat.focus();
-    restoreSelection(isat, isat_savedSelection);
-    // restoreSelection(isat, isatExec_savedSelection); 
-    var getHtml;
-    getHtml=isat.innerHTML;
-    
-    getCode(getHtml);
-    
-    var getText;
-    getText=isat.innerText;
-    getText(getText);
-    
-    } catch (error) {
-        
-      }
-      var isat_command="justifyRight";
-    // isat_Command_engine(isat_command);?
-    document.execCommand(isat_command);
-
-}
-/////center
-if(isat_op.cmd=="jcenter"){
-
-  
-  try {
-   
-    var isat=document.getElementById("main-input");
-    // event.preventDefault();   
-    isat.focus();
-    restoreSelection(isat, isat_savedSelection);
-    // restoreSelection(isat, isatExec_savedSelection); 
-    var getHtml;
-    getHtml=isat.innerHTML;
-    
-    getCode(getHtml);
-    
-    var getText;
-    getText=isat.innerText;
-    getText(getText);
-    
-    } catch (error) {
-        
-      }
-      var isat_command="justifyCenter";
-    // isat_Command_engine(isat_command);?
-    document.execCommand(isat_command);
-
-}
-
-
-
-//full
-
-if(isat_op.cmd=="jfull"){
-
-  
-  try {
-   
-    var isat=document.getElementById("main-input");
-    // event.preventDefault();   
-    isat.focus();
-    restoreSelection(isat, isat_savedSelection);
-    // restoreSelection(isat, isatExec_savedSelection); 
-    var getHtml;
-    getHtml=isat.innerHTML;
-    
-    getCode(getHtml);
-    
-    var getText;
-    getText=isat.innerText;
-    getText(getText);
-    
-    } catch (error) {
-        
-      }
-      var isat_command="justifyFull";
-    // isat_Command_engine(isat_command);?
-    document.execCommand(isat_command);
-
-}
-
-//indent and outdent
-
-/////center
-if(isat_op.cmd=="indent"){
-
-  
-  try {
-   
-    var isat=document.getElementById("main-input");
-    // event.preventDefault();   
-    isat.focus();
-    restoreSelection(isat, isat_savedSelection);
-    // restoreSelection(isat, isatExec_savedSelection); 
-    var getHtml;
-    getHtml=isat.innerHTML;
-    
-    getCode(getHtml);
-    
-    var getText;
-    getText=isat.innerText;
-    getText(getText);
-    
-    } catch (error) {
-        
-      }
-      var isat_command="indent";
-    // isat_Command_engine(isat_command);?
-    document.execCommand(isat_command);
-
-}
-
-
-
-//full
-
-if(isat_op.cmd=="outdent"){
-
-  
-  try {
-   
-    var isat=document.getElementById("main-input");
-    // event.preventDefault();   
-    isat.focus();
-    restoreSelection(isat, isat_savedSelection);
-    // restoreSelection(isat, isatExec_savedSelection); 
-    var getHtml;
-    getHtml=isat.innerHTML;
-    
-    getCode(getHtml);
-    
-    var getText;
-    getText=isat.innerText;
-    getText(getText);
-    
-    } catch (error) {
-        
-      }
-      var isat_command="outdent";
-    // isat_Command_engine(isat_command);?
-    document.execCommand(isat_command);
-
-}
-
-//orderdlist and unorderlist
-
-if(isat_op.cmd=="ol"){
-
-  
-  try {
-   
-    var isat=document.getElementById("main-input");
-    // event.preventDefault();   
-    isat.focus();
-    restoreSelection(isat, isat_savedSelection);
-    // restoreSelection(isat, isatExec_savedSelection); 
-    var getHtml;
-    getHtml=isat.innerHTML;
-    
-    getCode(getHtml);
-    
-    var getText;
-    getText=isat.innerText;
-    getText(getText);
-    
-    } catch (error) {
-        
-      }
-      var isat_command="insertOrderedList";
-    // isat_Command_engine(isat_command);?
-    document.execCommand(isat_command);
-
-}
-
-
-
-//ol
-
-if(isat_op.cmd=="ul"){
-
-  
-  try {
-   
-    var isat=document.getElementById("main-input");
-    // event.preventDefault();   
-    isat.focus();
-    restoreSelection(isat, isat_savedSelection);
-    // restoreSelection(isat, isatExec_savedSelection); 
-    var getHtml;
-    getHtml=isat.innerHTML;
-    
-    getCode(getHtml);
-    
-    var getText;
-    getText=isat.innerText;
-    getText(getText);
-    
-    } catch (error) {
-        
-      }
-      var isat_command="insertUnorderedList";
-    // isat_Command_engine(isat_command);?
-    document.execCommand(isat_command);
-
-}
-
-//subscript supscript
-
-
-
-if(isat_op.cmd=="subscript"){
-
-  
-  try {
-   
-    var isat=document.getElementById("main-input");
-    // event.preventDefault();   
-    isat.focus();
-    restoreSelection(isat, isat_savedSelection);
-    // restoreSelection(isat, isatExec_savedSelection); 
-    var getHtml;
-    getHtml=isat.innerHTML;
-    
-    getCode(getHtml);
-    
-    var getText;
-    getText=isat.innerText;
-    getText(getText);
-    
-    } catch (error) {
-        
-      }
-      var isat_command="subscript";
-    // isat_Command_engine(isat_command);?
-    document.execCommand(isat_command);
-
-}
-
-
-if(isat_op.cmd=="supscript"){
-
-  
-  try {
-   
-    var isat=document.getElementById("main-input");
-    // event.preventDefault();   
-    isat.focus();
-    restoreSelection(isat, isat_savedSelection);
-    // restoreSelection(isat, isatExec_savedSelection); 
-    var getHtml;
-    getHtml=isat.innerHTML;
-    
-    getCode(getHtml);
-    
-    var getText;
-    getText=isat.innerText;
-    getText(getText);
-    
-    } catch (error) {
-        
-      }
-      var isat_command="superscript";
-    // isat_Command_engine(isat_command);?
-    document.execCommand(isat_command);
-
-}
-/////underline and strickthrough
-
-
-  
-if(isat_op.cmd=="strikethrough"){
-
-
-try {
-   
-  var isat=document.getElementById("main-input");
-  // event.preventDefault();   
-  isat.focus();
-  restoreSelection(isat, isat_savedSelection);
-  // restoreSelection(isat, isatExec_savedSelection); 
-  var getHtml;
-  getHtml=isat.innerHTML;
-  
-  getCode(getHtml);
-  
-  var getText;
-  getText=isat.innerText;
-  getText(getText);
-  
-  } catch (error) {
-      
-    }
-    var isat_command="strikeThrough";
-  // isat_Command_engine(isat_command);?
-  document.execCommand(isat_command);
-
-}
-
-
-if(isat_op.cmd=="underline"){
-
-
-try {
- 
-  var isat=document.getElementById("main-input");
-  // event.preventDefault();   
-  isat.focus();
-  restoreSelection(isat, isat_savedSelection);
-  // restoreSelection(isat, isatExec_savedSelection); 
-  var getHtml;
-  getHtml=isat.innerHTML;
-  
-  getCode(getHtml);
-  
-  var getText;
-  getText=isat.innerText;
-  getText(getText);
-  
-  } catch (error) {
-      
-    }
-    var isat_command="underline";
-  // isat_Command_engine(isat_command);?
-  document.execCommand(isat_command);
-
-}
-
-//undo redo
-
-
-
-  
-if(isat_op.cmd=="undo"){
-
-
-  try {
-     
-    var isat=document.getElementById("main-input");
-    // event.preventDefault();   
-    isat.focus();
-    restoreSelection(isat, isat_savedSelection);
-    // restoreSelection(isat, isatExec_savedSelection); 
-    var getHtml;
-    getHtml=isat.innerHTML;
-    
-    getCode(getHtml);
-    
-    var getText;
-    getText=isat.innerText;
-    getText(getText);
-    
-    } catch (error) {
-        
-      }
-      var isat_command="undo";
-    // isat_Command_engine(isat_command);?
-    document.execCommand(isat_command);
-  
-  }
-  
-  
-  if(isat_op.cmd=="redo"){
-  
-  
-  try {
-   
-    var isat=document.getElementById("main-input");
-    // event.preventDefault();   
-    isat.focus();
-    restoreSelection(isat, isat_savedSelection);
-    // restoreSelection(isat, isatExec_savedSelection); 
-    var getHtml;
-    getHtml=isat.innerHTML;
-    
-    getCode(getHtml);
-    
-    var getText;
-    getText=isat.innerText;
-    getText(getText);
-    
-    } catch (error) {
-        
-      }
-      var isat_command="redo";
-    // isat_Command_engine(isat_command);?
-    document.execCommand(isat_command);
-  
-  }
-  
-  //create link and unlink
-
-
-  
-
-  
-if(isat_op.cmd=="createlink"){
-
-
-  try {
-     
-    var isat=document.getElementById("main-input");
-    // event.preventDefault();   
-    isat.focus();
-    restoreSelection(isat, isat_savedSelection);
-    // restoreSelection(isat, isatExec_savedSelection); 
-    var getHtml;
-    getHtml=isat.innerHTML;
-    
-    getCode(getHtml);
-    
-    var getText;
-    getText=isat.innerText;
-    getText(getText);
-    
-    } catch (error) {
-        
-      }
-
-      var linkURL=isat_op.link;
-      var sText=isat_op.name;
-      
-document.execCommand('insertHTML', false, '<a href="' + linkURL + '" target="_blank">' + sText + '</a>');
-
-
-      // var isat_command="subscript";
-    // isat_Command_engine(isat_command);?
-    // document.execCommand(isat_command);
-  
-  }
-  
-  
-  if(isat_op.cmd=="unlink"){
-  
-  
-  try {
-   
-    var isat=document.getElementById("main-input");
-    // event.preventDefault();   
-    isat.focus();
-    restoreSelection(isat, isat_savedSelection);
-    // restoreSelection(isat, isatExec_savedSelection); 
-    var getHtml;
-    getHtml=isat.innerHTML;
-    
-    getCode(getHtml);
-    
-    var getText;
-    getText=isat.innerText;
-    getText(getText);
-    
-    } catch (error) {
-        
-      }
-      var isat_command="unlink";
-    // isat_Command_engine(isat_command);?
-    document.execCommand(isat_command);
-  
-  }
-
-  //fore ForeColor and backcolor
-
-
-
-  
-
-  
-  if(isat_op.cmd=="forecolor"){
-
-
-    try {
-       
-      var isat=document.getElementById("main-input");
-      // event.preventDefault();   
-      isat.focus();
-      restoreSelection(isat, isat_savedSelection);
-      // restoreSelection(isat, isatExec_savedSelection); 
-      var getHtml;
-      getHtml=isat.innerHTML;
-      
-      getCode(getHtml);
-      
-      var getText;
-      getText=isat.innerText;
-      getText(getText);
-      
-      } catch (error) {
-          
-        }
-  
-
-        var color=isat_op.color;
-document.execCommand('styleWithCSS', false, true);
-document.execCommand('forecolor', false, color);
-
-  
-        // var isat_command="subscript";
-      // isat_Command_engine(isat_command);?
-      // document.execCommand(isat_command);
-    
-    }
-    
-    
-    if(isat_op.cmd=="backcolor"){
-    
-    
-    try {
-     
-      var isat=document.getElementById("main-input");
-      // event.preventDefault();   
-      isat.focus();
-      restoreSelection(isat, isat_savedSelection);
-      // restoreSelection(isat, isatExec_savedSelection); 
-      var getHtml;
-      getHtml=isat.innerHTML;
-      
-      getCode(getHtml);
-      
-      var getText;
-      getText=isat.innerText;
-      getText(getText);
-      
-      } catch (error) {
-          
-        }
-
-        
-        var color=isat_op.color;
-document.execCommand('styleWithCSS', false, true);
-document.execCommand('backcolor', false, color);
-
-    }
-//fonts
-
-
-
-if(isat_op.cmd=="headers"){
-    
-    
-  try {
-   
-    var isat=document.getElementById("main-input");
-    // event.preventDefault();   
-    isat.focus();
-    restoreSelection(isat, isat_savedSelection);
-    // restoreSelection(isat, isatExec_savedSelection); 
-    var getHtml;
-    getHtml=isat.innerHTML;
-    
-    getCode(getHtml);
-    
-    var getText;
-    getText=isat.innerText;
-    getText(getText);
-    
-    } catch (error) {
-        
-      }
-
-      
-      var tag=isat_op.tag;
-// document.execCommand('styleWithCSS', false, true);
-document.execCommand('formatBlock', false, tag);
-
-  }
-
-
-  //font family
-  
-
-  if(isat_op.cmd=="fontfamily"){
-  
-  
-    try {
-     
-      var isat=document.getElementById("main-input");
-      // event.preventDefault();   
-      isat.focus();
-      restoreSelection(isat, isat_savedSelection);
-      // restoreSelection(isat, isatExec_savedSelection); 
-      var getHtml;
-      getHtml=isat.innerHTML;
-      
-      getCode(getHtml);
-      
-      var getText;
-      getText=isat.innerText;
-      getText(getText);
-      
-      } catch (error) {
-          
-        }
-        // if (!document.getElementById(fontID)) {
-         var fontID=isat_op.type;
-         var selected=isat_op.type;
-          var head = document.getElementsByTagName('head')[0];
-          var link = document.createElement('link');
-          link.id = fontID;
-          link.rel = 'stylesheet';
-          link.type = 'text/css';
-          link.href = 'http://fonts.googleapis.com/css?family='+fontID;
-          link.media = 'all';
-          head.appendChild(link);
-        // }
-        
-        // var  isat_custom_command='{"isat_commands":"fontName","gui":false,"value":"'+selected+'"}';
-        // isat_Command_execute(isat_custom_command);
-         document.execCommand("fontName", false, selected);
-            
-    }
 
 }
 
@@ -2377,3 +1863,35 @@ module.exports.getCode=getCode;
 
 module.exports.getText=getText;
 module.exports.isat_wygsiwyg_zone=isat_wygsiwyg_zone;
+},{}],2:[function(require,module,exports){
+const isat=require('wygsiwyg');
+
+isat.isat_wygsiwyg_zone({
+     editor_style:"border: 1px solid;padding: 10px;box-shadow: 5px 10px;",
+     trigger:1,
+     disable:false,
+    imgMode:{
+         height:40,
+         width:50
+    },
+    dataMode:{
+     attribute:document.getElementById("mycode")
+    }
+
+});
+
+
+
+console.log(isat.getCode());
+
+// // isatbold();
+
+// function isatbold(){
+// alert("clicked");
+
+// }
+// function myFunction() {
+  
+//      alert("clicked");
+//    }
+},{"wygsiwyg":1}]},{},[2]);
